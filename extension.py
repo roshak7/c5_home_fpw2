@@ -36,27 +36,18 @@ class Convertor:
             raise ConverterException("Неверное количество параметров")
 
         quote, base, amount = values
+        quote_formatted = quote
+        base_formatted = base
 
         if quote == base:
             raise ConverterException(f'Невозможно перевести одинаковые валюты {base}')
-
-        try:
-            quote_formatted = exchanger[quote]
-        except KeyError:
-            raise ConverterException(f'Не удалось обработать валюту {quote}')
-
-        try:
-            base_formatted = exchanger[base]
-        except KeyError:
-            raise ConverterException(f'Не удалось обработать команду {base}')
 
         try:
             amount = float(amount)
         except ValueError:
             raise ConverterException(f'Не удалось обработать количество {amount}')
 
-        r = requests.get(
-            f'https://free.currconv.com/api/v7/convert?q={quote_formatted}_{base_formatted}&compact=ultra&apiKey=d36a50e14b5d1499e823')
+        r = requests.get(f'https://free.currconv.com/api/v7/convert?q={quote_formatted}_{base_formatted}&compact=ultra&apiKey=d36a50e14b5d1499e823')
 
         result = float(json.loads(r.content)[f"{quote_formatted}_{base_formatted}"]) * amount
 

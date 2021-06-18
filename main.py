@@ -32,7 +32,7 @@ def set(message: telebot.types.Message):
     bot.send_message(chat_id=message.chat.id, text='Выберите валюту в которую будете конвертировать', reply_markup=markup)
 
 
-@bot.callback_query_handlers(func=lambda call: True)
+@bot.callback_query_handler(func=lambda call: True)
 def handle_query(call):
     t, st = call.data.split()
     user_id = call.message.chat.id
@@ -40,7 +40,7 @@ def handle_query(call):
         db.change_from(user_id, st)
 
     if t == "val2":
-        db.change_from(user_id, st)
+        db.change_to(user_id, st)
 
     pair = db.get_pair(user_id)
 
