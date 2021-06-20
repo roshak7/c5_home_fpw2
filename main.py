@@ -55,12 +55,12 @@ def converter(message: telebot.types.Message):
     try:
         total = Convertor.get_price(values)
     except ConverterException as e:
-        bot.reply_to(message,f'Ошибка пользователя \n{e}')
+        bot.reply_to(message, f'Ошибка пользователя \n{e}')
     except Exception as e:
         bot.reply_to(message, f'Не удалось обработать команду \n{e}')
     else:
         text = f'Цена {values[2]} {values[0]} в {values[1]} --  {total} {pair[1]}'
-        bot.reply_to(message,text)
+        bot.reply_to(message, text)
 
 
 bot.polling(none_stop=True, interval=0)
